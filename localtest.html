@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <label>study_id:</label>
+        <input id="d1" type="text" value="001104C2400000143"/>
+        <label>history_id:</label>
+        <input id="d2" type="text" value="001104C2021001334"/>
+        <br />
+        <label>url:</label>
+        <input id="d3" type="text" value="https://dev.readinggate.com" style="width:300px;" />
+        <br/>
+        <label>user:</label>
+        <input id="d4" type="text" value="STUDENT" />
+        <label>mode:</label>
+        <input id="d5" type="text" value="STUDY" />
+        <label>book:</label>
+        <input id="d6" type="text" value="502" />
+        <br />
+
+        <label>server:</label>
+        <input id="d7" type="text" value="dev" />
+        <br />
+        <br />
+        <input type="button" value="GO" onclick="goStudy()" />
+
+        <script type="text/javascript">
+            function goStudy() {
+                const d1 = document.getElementById('d1').value;
+                const d2 = document.getElementById('d2').value;
+                const d3 = document.getElementById('d3').value;
+                const d4 = document.getElementById('d4').value;
+                const d5 = document.getElementById('d5').value;
+                const d6 = document.getElementById('d6').value;
+                const d7 = document.getElementById('d7').value;
+
+                let link = "./Default.html?info=" + d1 + "|" + d2 + "|" + d3 + "|" + d4 + "|" + d5 + "|" + d6 + "|" + d7;
+                location.href = link;
+            }
+        </script>
+    </div>
+</body>
+</html>

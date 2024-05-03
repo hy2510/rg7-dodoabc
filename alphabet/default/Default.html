@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript" src="../../include/js/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="../../include/js/jquery.session.min.js"></script>
+    <script type="text/javascript" src="../../include/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="../../include/js/common.js"></script>
+    <script type="text/javascript" src="../../include/js/language.js"></script>
+    <script type="text/javascript" src="../alphabet.js"></script>
+</head>
+<body bgcolor='black'>
+    <script type="text/javascript">
+        $(document).ready(() => {
+            $(".js-wrapper-header").addClass("d-none");
+            $(".curtain-panel").removeClass("left right");
+
+            getStudyInfo(getBookOnSucc);  // GetStudyInfo("EXEC [dbo].[sStudySetupInfoEbPreK] @pStudyId = '" + pStudyId + "', @pStudentHistoryId = '" + pStudentHistoryId + "' ");)
+        });
+
+        const getBookOnSucc = (data) => {
+            const userMode = $.session.get('user');     // STUDENT ("GUEST", "STAFF")
+            if ($.session.get('user') == "STUDENT") {
+                nextActivity(data.StatusCode == "" ? "025001" : data.StatusCode);
+            } else {
+                nextActivity("025001");
+            }
+        };
+    </script>
+</body>
+</html>
