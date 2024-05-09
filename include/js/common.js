@@ -55,6 +55,42 @@ window.history.forward(0);
 // 앞으로가기 방지
 document.oncontextmenu = function () { return false; };
 
+// 화면 사이즈 변수
+let screenWidth = window.innerWidth;
+let screenHeight = window.innerHeight;
+const wrapperScalePortrait =  screenWidth / 720;
+const wrapperScaleLandscape = screenHeight / 720;
+
+// 화면 사이즈 조정 (모바일일 때)
+window.onload = () => {
+    if(window.innerHeight > window.innerWidth) {
+        // 세로모드
+        document.querySelector(".wrapper-layout").style.transform = "scale(" + wrapperScalePortrait + ")"
+    } else {
+        // 가로모드
+        document.querySelector(".wrapper-layout").style.transform = "scale(" + wrapperScaleLandscape + ")"
+    } 
+};
+
+window.addEventListener("resize", function() {
+    if(window.innerHeight > window.innerWidth) {
+        // 세로모드
+        screenWidth = window.innerWidth;
+        screenHeight = window.innerHeight;
+        document.querySelector(".wrapper-layout").style.transform = "scale(" + wrapperScalePortrait + ")"
+    } else {
+        // 가로모드
+        screenWidth = window.innerWidth;
+        screenHeight = window.innerHeight;
+        document.querySelector(".wrapper-layout").style.transform = "scale(" + wrapperScaleLandscape + ")"
+    } 
+});
+
+// 화면 사이즈 조정 (태블릿일 때)
+
+// 화면 사이즈 고징 (PC 버전)
+
+
 // sql 데이터 로딩 [
 const loadQuizData = async (pStep, pQuizType, fnOnSucc) => {
     console.log(`loadQuizData(step:${step}, quizType:${quizType})`);

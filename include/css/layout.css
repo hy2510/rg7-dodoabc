@@ -1,16 +1,45 @@
 ﻿.background {
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+@media( orientation: portrait ){
+    html {
+        transform: rotate(-90deg);
+        transform-origin: top left;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100vh;
+        height: 100vw;
+    }
+    
+    /* body {
+        transform: rotate(180deg);
+        transform-origin: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vh;
+        height: 100vw;
+    } */
+
+    .background {
+        width: 100vh;
+        height: 100vw;
+    }
 }
 
 .wrapper-layout {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 1280px;
-    height: 720px;
+    transform-origin: center;
+    min-width: 1280px;
+    min-height: 720px;
     background-color: white;
 }
 
