@@ -55,41 +55,99 @@ window.history.forward(0);
 // 앞으로가기 방지
 document.oncontextmenu = function () { return false; };
 
-// 화면 사이즈 변수
-let screenWidth = window.innerWidth;
-let screenHeight = window.innerHeight;
-const wrapperScalePortrait =  screenWidth / 720;
-const wrapperScaleLandscape = screenHeight / 720;
+// 접속 디바이스 구별 함수 (https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.5/mobile-detect.min.js)
+const md = new MobileDetect(window.navigator.userAgent);
 
-// 화면 사이즈 조정 (모바일일 때)
+// 화면 사이즈를 변경하기 위한 변수
+let screenWidth = screen.width;
+let screenHeight = screen.height;
+let isPortrait = screenHeight > screenWidth;
+let wrapperScalePortrait =  screenWidth / 1280;
+let wrapperScaleLandscape = screenHeight / 720;
+let wrapperScalePortraitToLandscape = screenHeight / 1280; // onload 세로 -> 가로 - 모바일
+let wrapperScaleLandscapeToPortrait = screenWidth / 720; // onload 가로 -> 세로 - 모바일
+let wrapperScalePortraitToLandscapeByTab = screenWidth / 1280; // onload 세로 -> 가로 - 태블릿
+let wrapperScaleLandscapeToPortraitByTab = screenHeight / 1280; // onload 가로 -> 세로 - 태블릿
+let targetLayout = ".wrapper-layout";
+
+// 화면 사이즈 조정 (학습 실행시)
 window.onload = () => {
-    if(window.innerHeight > window.innerWidth) {
-        // 세로모드
-        document.querySelector(".wrapper-layout").style.transform = "scale(" + wrapperScalePortrait + ")"
-    } else {
-        // 가로모드
-        document.querySelector(".wrapper-layout").style.transform = "scale(" + wrapperScaleLandscape + ")"
-    } 
+    if (isMobile) {
+        // 태블릿일 때
+        if (md.tablet()) {
+            if (isPortrait) {
+                document.querySelector(targetLayout).style.transform = `scale(${wrapperScalePortrait})`;
+            } else {
+                document.querySelector(targetLayout).style.transform = `scale(${wrapperScalePortrait})`;
+            }
+        }
+    
+        // 모바일일 때
+        else {
+            if (isPortrait) {
+                document.querySelector(targetLayout).style.transform = `scale(${wrapperScalePortrait})`;
+            } else {
+                document.querySelector(targetLayout).style.transform = `scale(${wrapperScaleLandscape})`;
+            }
+        }
+    }
+    
+    else {
+        if (screenWidth < 1440) {
+            document.querySelector(targetLayout).style.transform = `scale(${wrapperScalePortrait})`;
+        } 
+    }
 };
 
-window.addEventListener("resize", function() {
-    if(window.innerHeight > window.innerWidth) {
-        // 세로모드
-        screenWidth = window.innerWidth;
-        screenHeight = window.innerHeight;
-        document.querySelector(".wrapper-layout").style.transform = "scale(" + wrapperScalePortrait + ")"
-    } else {
-        // 가로모드
-        screenWidth = window.innerWidth;
-        screenHeight = window.innerHeight;
-        document.querySelector(".wrapper-layout").style.transform = "scale(" + wrapperScaleLandscape + ")"
-    } 
+// 화면 사이즈 조정 (디바이스 회전시)
+window.addEventListener("orientationchange", function() {
+    if (isMobile) {
+        // 태블릿일때
+        if (md.tablet()) {
+            switch(window.orientation) {
+                // onload 세로 -> 가로
+                case 0:
+                    if (isPortrait) {
+                        document.querySelector(targetLayout).style.transform = `scale(${wrapperScalePortraitToLandscapeByTab})`;
+                    } else {
+                        document.querySelector(targetLayout).style.transform = `scale(${wrapperScaleLandscapeToPortraitByTab})`;
+                    }
+                    break;
+                // onload 가로 -> 세로
+                case 90:
+                case -90:
+                    if (isPortrait) {
+                        document.querySelector(targetLayout).style.transform = `scale(${wrapperScaleLandscapeToPortraitByTab})`;
+                    } else {
+                        document.querySelector(targetLayout).style.transform = `scale(${wrapperScalePortrait})`;
+                    }
+                    break;
+            }
+        }
+        // 모바일일때
+        else {
+            switch(window.orientation) {
+                // onload 세로 -> 가로
+                case 0:
+                    if (isPortrait) {
+                        document.querySelector(targetLayout).style.transform = `scale(${wrapperScalePortrait})`;
+                    } else {
+                        document.querySelector(targetLayout).style.transform = `scale(${wrapperScalePortraitToLandscape})`;
+                    }
+                    break;
+                // onload 가로 -> 세로
+                case 90:
+                case -90:
+                    if (isPortrait) {
+                        document.querySelector(targetLayout).style.transform = `scale(${wrapperScaleLandscapeToPortrait})`;
+                    } else {
+                        document.querySelector(targetLayout).style.transform = `scale(${wrapperScaleLandscape})`;
+                    }
+                    break;
+            }
+        }
+    }
 });
-
-// 화면 사이즈 조정 (태블릿일 때)
-
-// 화면 사이즈 고징 (PC 버전)
-
 
 // sql 데이터 로딩 [
 const loadQuizData = async (pStep, pQuizType, fnOnSucc) => {

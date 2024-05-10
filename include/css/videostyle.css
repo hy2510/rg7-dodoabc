@@ -14,12 +14,6 @@ body {
     background: #000000;
 }
 
-@media( orientation: portrait ) {
-    body {
-        min-height: fit-content;
-    }
-}
-
 .wrapper-video-player {
     display: flex;
     width: 1280px;
